@@ -1,31 +1,14 @@
-import { useMemo, useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import { useRecordContext } from '../contexts/RecordContext';
 import { useClientContext } from '../contexts/ClientContext';
 import { StatsCards } from '../components/dashboard/StatsCards';
 import { SummaryTable } from '../components/dashboard/SummaryTable';
 import { TimeChart } from '../components/dashboard/TimeChart';
-import { Card } from '../components/common/Card';
 import { timeCalculations } from '../services/time/timeCalculations';
-import { calculateStorageSize, formatBytes, estimateCapacity } from '../utils/storageCalculator';
 
 export const Dashboard: React.FC = () => {
   const { records } = useRecordContext();
   const { clients } = useClientContext();
-  const [storageInfo, setStorageInfo] = useState<{
-    size: number;
-    formatted: string;
-    capacity: { remainingMB: number; estimatedRecords: number; estimatedYears: number };
-  } | null>(null);
-
-  useEffect(() => {
-    const size = calculateStorageSize();
-    const capacity = estimateCapacity(size.total);
-    setStorageInfo({
-      size: size.total,
-      formatted: formatBytes(size.total),
-      capacity,
-    });
-  }, [records, clients]);
 
   const now = new Date();
   const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
