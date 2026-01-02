@@ -1,0 +1,21 @@
+.records-page {
+  padding: 2rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.page-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+

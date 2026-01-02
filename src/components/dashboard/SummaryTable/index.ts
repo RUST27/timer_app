@@ -1,0 +1,2 @@
+export { SummaryTable } from './SummaryTable';
+

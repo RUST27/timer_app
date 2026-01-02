@@ -1,0 +1,29 @@
+.project-card {
+  padding: 1rem;
+}
+
+.project-name {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.25rem;
+}
+
+.project-description {
+  color: #666;
+  margin: 0.5rem 0;
+}
+
+.project-category {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.project-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+

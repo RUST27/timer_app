@@ -1,0 +1,51 @@
+.record-card {
+  padding: 1rem;
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.record-date {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.record-duration {
+  font-weight: bold;
+  color: #007bff;
+  font-size: 1.125rem;
+}
+
+.record-info {
+  margin: 0.5rem 0;
+}
+
+.record-client,
+.record-project {
+  margin: 0.25rem 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+}
+
+.record-time {
+  display: flex;
+  gap: 0.5rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.record-description {
+  color: #666;
+  margin: 0.5rem 0;
+}
+
+.record-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+

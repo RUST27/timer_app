@@ -1,0 +1,2 @@
+export { RecordCard } from './RecordCard';
+

@@ -1,0 +1,14 @@
+.timer-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.timer-time {
+  font-size: 4rem;
+  font-weight: bold;
+  font-family: 'Courier New', monospace;
+  color: #333;
+}
+
