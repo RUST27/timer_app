@@ -101,7 +101,7 @@ export const TimerPage: React.FC = () => {
     const client = clients.find((c) => c.id === timer.clientId);
 
     return (
-      <Card className="overflow-hidden hover:shadow-elegant-lg transition-all duration-300 border-2 border-gray-700">
+      <Card className="overflow-visible hover:shadow-elegant-lg transition-all duration-300 border-2 border-gray-700">
         <div className={`p-6 border-b-2 ${
           timer.isPaused 
             ? 'bg-gray-800 border-gray-700' 
@@ -130,8 +130,8 @@ export const TimerPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="p-10 text-center bg-gray-800">
-          <div className="text-5xl sm:text-6xl lg:text-7xl font-display font-bold font-mono text-white mb-4 tracking-tight">
+        <div className="p-6 sm:p-8 lg:p-10 text-center bg-gray-800 min-h-[120px] flex items-center justify-center">
+          <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold font-mono bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-300 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
             {timeCalculations.formatDuration(elapsed)}
           </div>
         </div>
@@ -199,7 +199,7 @@ export const TimerPage: React.FC = () => {
                 </svg>
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-white mb-2 tracking-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-clip-text text-transparent mb-2 tracking-tight">
                   Gestión de Tiempo
                 </h1>
                 <p className="text-gray-400 text-lg font-body">Administra múltiples timers por cliente y proyecto</p>
@@ -218,7 +218,7 @@ export const TimerPage: React.FC = () => {
 
         {activeTimers.length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-white mb-8">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-gray-200 mb-8">
               Timers Activos <span className="text-lg font-normal text-gray-400 font-body">({activeTimers.length})</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
@@ -231,7 +231,7 @@ export const TimerPage: React.FC = () => {
 
         {pausedTimers.length > 0 && (
           <section className="mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-white mb-8">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-gray-200 mb-8">
               Timers Pausados <span className="text-lg font-normal text-gray-400 font-body">({pausedTimers.length})</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">

@@ -38,7 +38,7 @@ export const SummaryTable: React.FC<SummaryTableProps> = ({ data, title }) => {
                   }`}
                 >
                   <td className="py-3 px-4 font-medium text-white">{item.name}</td>
-                  <td className="py-3 px-4 text-right font-mono font-semibold text-gray-300">
+                  <td className="py-3 px-4 text-right font-mono font-semibold text-cyan-300">
                     {timeCalculations.formatDuration(item.totalTime)}
                   </td>
                 </tr>

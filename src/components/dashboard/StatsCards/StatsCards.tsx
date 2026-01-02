@@ -52,7 +52,7 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ totalToday, totalWeek, t
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-gray-400 font-body font-medium mb-1">{stat.label}</p>
-                  <p className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-1 font-mono tracking-tight text-white">
+                  <p className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-1 font-mono tracking-tight bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-300 bg-clip-text text-transparent">
                     {timeCalculations.formatDuration(stat.value)}
                   </p>
                 </div>

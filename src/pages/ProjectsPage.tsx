@@ -50,7 +50,7 @@ export const ProjectsPage: React.FC = () => {
               </svg>
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-white mb-2 tracking-tight">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold bg-gradient-to-r from-gray-100 via-gray-200 to-gray-100 bg-clip-text text-transparent mb-2 tracking-tight">
                 Proyectos
               </h1>
               <p className="text-gray-400 text-lg font-body">Gestiona tus proyectos</p>

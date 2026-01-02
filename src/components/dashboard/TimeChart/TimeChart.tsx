@@ -31,7 +31,7 @@ export const TimeChart: React.FC<TimeChartProps> = ({ data }) => {
                   <span className="text-sm font-semibold text-white truncate flex-1">
                     {item.label}
                   </span>
-                  <span className="text-sm font-mono font-bold text-gray-300 ml-4">
+                  <span className="text-sm font-mono font-bold text-cyan-300 ml-4">
                     {((item.value / 3600000) * 100 / (maxValue / 3600000)).toFixed(1)}%
                   </span>
                 </div>

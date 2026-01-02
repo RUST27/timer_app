@@ -50,7 +50,7 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-4">
           <div className="flex items-center gap-3">
-            <h2 className="text-xl sm:text-2xl font-display font-semibold tracking-tight text-white">
+            <h2 className="text-xl sm:text-2xl font-display font-semibold tracking-tight text-gray-100">
               Timer Pro
             </h2>
           </div>

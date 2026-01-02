@@ -18,12 +18,12 @@ export const ClientCard: React.FC<ClientCardProps> = ({ client, onEdit, onDelete
             className="w-5 h-5 rounded-full shadow-md flex-shrink-0"
             style={{ backgroundColor: client.color || '#6366f1' }}
           />
-          <h3 className="text-xl font-bold text-slate-800 truncate flex-1">{client.name}</h3>
+          <h3 className="text-xl font-bold text-gray-200 truncate flex-1">{client.name}</h3>
         </div>
         {client.description && (
-          <p className="text-sm text-slate-600 mb-4 line-clamp-2">{client.description}</p>
+          <p className="text-sm text-gray-400 mb-4 line-clamp-2">{client.description}</p>
         )}
-        <div className="flex gap-2 pt-4 border-t border-slate-200">
+        <div className="flex gap-2 pt-4 border-t border-gray-700">
           {onEdit && (
             <Button
               size="small"
