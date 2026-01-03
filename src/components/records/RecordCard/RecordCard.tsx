@@ -1,6 +1,8 @@
 import React from 'react';
 import type { TimeRecord } from '../../../types';
 import { Card } from '../../common/Card';
+import { Badge } from '../../common/Badge';
+import { Tooltip } from '../../common/Tooltip';
 import { timeFormatting } from '../../../services/time/timeFormatting';
 import { timeCalculations } from '../../../services/time/timeCalculations';
 
@@ -20,13 +22,15 @@ export const RecordCard: React.FC<RecordCardProps> = ({
       <div className="p-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
           <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 mb-2">
+            <div className="flex items-center gap-3 mb-2 flex-wrap">
               <h3 className="text-xl font-bold text-gray-200">
                 {timeFormatting.formatDate(record.startTime)}
               </h3>
-              <span className="px-3 py-1 bg-gray-700 text-cyan-300 text-sm font-bold rounded-full font-mono">
-                {timeCalculations.formatDuration(record.duration)}
-              </span>
+              <Tooltip content={`Duración: ${timeCalculations.formatDuration(record.duration)}`}>
+                <Badge variant="info" size="sm" className="font-mono">
+                  {timeCalculations.formatDuration(record.duration)}
+                </Badge>
+              </Tooltip>
             </div>
             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-400">
               <div className="flex items-center gap-2">

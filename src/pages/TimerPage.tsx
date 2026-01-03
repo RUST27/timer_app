@@ -7,6 +7,10 @@ import { Modal } from '../components/common/Modal';
 import { Input } from '../components/common/Input';
 import { Button } from '../components/common/Button';
 import { Card } from '../components/common/Card';
+import { Badge } from '../components/common/Badge';
+import { ProgressBar } from '../components/common/ProgressBar';
+import { Tooltip } from '../components/common/Tooltip';
+import { EmptyState } from '../components/common/EmptyState';
 import { timeCalculations } from '../services/time/timeCalculations';
 
 export const TimerPage: React.FC = () => {
@@ -99,9 +103,20 @@ export const TimerPage: React.FC = () => {
     const clientName = getClientName(timer.clientId);
     const projectName = getProjectName(timer.projectId);
     const client = clients.find((c) => c.id === timer.clientId);
+    
+    // Color dinámico basado en tiempo transcurrido
+    const hours = elapsed / (1000 * 60 * 60);
+    const getTimeColor = () => {
+      if (hours < 1) return 'from-blue-300 via-cyan-300 to-blue-300';
+      if (hours < 4) return 'from-cyan-300 via-blue-400 to-cyan-400';
+      if (hours < 8) return 'from-cyan-400 via-blue-500 to-cyan-500';
+      return 'from-blue-500 via-cyan-500 to-blue-500';
+    };
 
     return (
-      <Card className="overflow-visible hover:shadow-elegant-lg transition-all duration-300 border-2 border-gray-700">
+      <Card className={`overflow-visible hover:shadow-elegant-lg transition-shadow duration-300 border-2 hover:scale-100 hover:translate-y-0 ${
+        timer.isPaused ? 'border-gray-700' : 'border-cyan-500/30'
+      }`}>
         <div className={`p-6 border-b-2 ${
           timer.isPaused 
             ? 'bg-gray-800 border-gray-700' 
@@ -109,10 +124,14 @@ export const TimerPage: React.FC = () => {
         }`}>
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <div className="flex items-center gap-4 flex-1 min-w-0">
-              <div
-                className="w-5 h-5 rounded-full shadow-elegant flex-shrink-0 border-2 border-gray-600"
-                style={{ backgroundColor: client?.color || '#6b7280' }}
-              />
+              <Tooltip content={clientName}>
+                <div
+                  className={`w-5 h-5 rounded-full shadow-elegant flex-shrink-0 border-2 ${
+                    !timer.isPaused ? 'animate-pulse' : ''
+                  }`}
+                  style={{ backgroundColor: client?.color || '#6b7280' }}
+                />
+              </Tooltip>
               <div className="min-w-0 flex-1">
                 <h3 className="text-lg sm:text-xl font-display font-bold text-white truncate">{clientName}</h3>
                 {projectName && (
@@ -120,20 +139,27 @@ export const TimerPage: React.FC = () => {
                 )}
               </div>
             </div>
-            <div className={`px-4 py-2 rounded-xl text-xs font-display font-semibold whitespace-nowrap ${
-              timer.isPaused
-                ? 'bg-gray-700 text-gray-300'
-                : 'bg-gray-700 text-white'
-            }`}>
+            <Badge variant={timer.isPaused ? 'secondary' : 'info'} size="sm">
               {timer.isPaused ? 'Pausado' : 'Activo'}
-            </div>
+            </Badge>
           </div>
         </div>
 
-        <div className="p-6 sm:p-8 lg:p-10 text-center bg-gray-800 min-h-[120px] flex items-center justify-center">
-          <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold font-mono bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-300 bg-clip-text text-transparent tracking-tight whitespace-nowrap">
+        <div className="p-6 sm:p-8 lg:p-10 text-center bg-gray-800 min-h-[120px] flex flex-col items-center justify-center">
+          <div className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-bold font-mono bg-gradient-to-r ${getTimeColor()} bg-clip-text text-transparent tracking-tight whitespace-nowrap mb-2`}>
             {timeCalculations.formatDuration(elapsed)}
           </div>
+          {!timer.isPaused && (
+            <div className="mt-4 w-full max-w-xs">
+              <ProgressBar
+                value={elapsed}
+                max={8 * 60 * 60 * 1000}
+                variant="info"
+                showLabel={false}
+                size="sm"
+              />
+            </div>
+          )}
         </div>
 
         {timer.description && (
@@ -145,41 +171,49 @@ export const TimerPage: React.FC = () => {
         <div className="p-6 flex flex-col sm:flex-row gap-3 bg-gray-800">
           {timer.isPaused ? (
             <>
-              <Button
-                onClick={() => handleResume(timer.id)}
-                variant="success"
-                size="small"
-                className="flex-1 shadow-elegant"
-              >
-                Reanudar
-              </Button>
-              <Button
-                onClick={() => handleStop(timer.id)}
-                variant="danger"
-                size="small"
-                className="flex-1 shadow-elegant"
-              >
-                Detener
-              </Button>
+              <Tooltip content="Reanuda el timer para continuar contando el tiempo">
+                <Button
+                  onClick={() => handleResume(timer.id)}
+                  variant="success"
+                  size="small"
+                  className="flex-1 shadow-elegant"
+                >
+                  Reanudar
+                </Button>
+              </Tooltip>
+              <Tooltip content="Detiene el timer y guarda el tiempo trabajado">
+                <Button
+                  onClick={() => handleStop(timer.id)}
+                  variant="danger"
+                  size="small"
+                  className="flex-1 shadow-elegant"
+                >
+                  Detener
+                </Button>
+              </Tooltip>
             </>
           ) : (
             <>
-              <Button
-                onClick={() => handlePause(timer.id)}
-                variant="secondary"
-                size="small"
-                className="flex-1 shadow-elegant"
-              >
-                Pausar
-              </Button>
-              <Button
-                onClick={() => handleStop(timer.id)}
-                variant="danger"
-                size="small"
-                className="flex-1 shadow-elegant"
-              >
-                Detener
-              </Button>
+              <Tooltip content="Pausa el timer sin perder el tiempo acumulado">
+                <Button
+                  onClick={() => handlePause(timer.id)}
+                  variant="secondary"
+                  size="small"
+                  className="flex-1 shadow-elegant"
+                >
+                  Pausar
+                </Button>
+              </Tooltip>
+              <Tooltip content="Detiene el timer y guarda el tiempo trabajado">
+                <Button
+                  onClick={() => handleStop(timer.id)}
+                  variant="danger"
+                  size="small"
+                  className="flex-1 shadow-elegant"
+                >
+                  Detener
+                </Button>
+              </Tooltip>
             </>
           )}
         </div>
@@ -188,12 +222,12 @@ export const TimerPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-6 sm:p-8 lg:p-10">
+    <div className="min-h-screen p-6 sm:p-8 lg:p-10 animate-fade-in">
       <div className="container mx-auto max-w-7xl">
-        <div className="mb-10">
+        <div className="mb-10 animate-slide-up">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center border border-gray-700">
+              <div className="w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center border border-gray-700 transition-transform duration-300 hover:scale-110">
                 <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -217,46 +251,59 @@ export const TimerPage: React.FC = () => {
         </div>
 
         {activeTimers.length > 0 && (
-          <section className="mb-12">
+          <section className="mb-12 animate-slide-up-delay">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-gray-200 mb-8">
               Timers Activos <span className="text-lg font-normal text-gray-400 font-body">({activeTimers.length})</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-              {activeTimers.map((timer) => (
-                <TimerCard key={timer.id} timer={timer} />
+              {activeTimers.map((timer, index) => (
+                <div 
+                  key={timer.id} 
+                  className="animate-scale-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <TimerCard timer={timer} />
+                </div>
               ))}
             </div>
           </section>
         )}
 
         {pausedTimers.length > 0 && (
-          <section className="mb-12">
+          <section className="mb-12 animate-fade-in-slow">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-display font-bold text-gray-200 mb-8">
               Timers Pausados <span className="text-lg font-normal text-gray-400 font-body">({pausedTimers.length})</span>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-              {pausedTimers.map((timer) => (
-                <TimerCard key={timer.id} timer={timer} />
+              {pausedTimers.map((timer, index) => (
+                <div 
+                  key={timer.id} 
+                  className="animate-scale-in"
+                  style={{ animationDelay: `${index * 0.1}s` }}
+                >
+                  <TimerCard timer={timer} />
+                </div>
               ))}
             </div>
           </section>
         )}
 
         {timers.length === 0 && (
-          <div className="text-center py-24 px-4">
-            <h2 className="text-3xl sm:text-4xl font-display font-bold text-white mb-4">No hay timers activos</h2>
-            <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto font-body">
-              Comienza un nuevo timer para empezar a registrar tu tiempo de trabajo
-            </p>
-            <Button 
-              onClick={() => setShowNewTimerModal(true)} 
-              variant="primary" 
-              size="large"
-              className="shadow-elegant-lg"
-            >
-              Crear Primer Timer
-            </Button>
-          </div>
+          <Card>
+            <EmptyState
+              icon={
+                <svg className="w-full h-full" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              }
+              title="No hay timers activos"
+              description="Comienza un nuevo timer para empezar a registrar tu tiempo de trabajo. Selecciona un cliente y proyecto para comenzar."
+              action={{
+                label: 'Crear Primer Timer',
+                onClick: () => setShowNewTimerModal(true),
+              }}
+            />
+          </Card>
         )}
 
         {/* Modal para nuevo timer */}

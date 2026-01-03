@@ -1,9 +1,23 @@
 import React from 'react';
+import { useTimerContext } from '../../contexts/TimerContext';
+import { Badge } from '../common/Badge';
+import { Tooltip } from '../common/Tooltip';
 
 interface NavigationProps {
   currentPage: string;
   onNavigate: (page: string) => void;
 }
+
+// Logo SVG para Timer Pro
+const TimerProLogo = ({ className }: { className?: string }) => (
+  <svg className={className} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="2.5" className="text-primary-500"/>
+    <circle cx="20" cy="20" r="2" fill="currentColor" className="text-primary-500"/>
+    <line x1="20" y1="20" x2="20" y2="10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-primary-500"/>
+    <line x1="20" y1="20" x2="26" y2="20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" className="text-cyan-400"/>
+    <path d="M8 20 C8 13.3726 13.3726 8 20 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-cyan-400 opacity-60"/>
+  </svg>
+);
 
 // Iconos SVG formales
 const DashboardIcon = ({ className }: { className?: string }) => (
@@ -37,9 +51,17 @@ const RecordsIcon = ({ className }: { className?: string }) => (
 );
 
 export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate }) => {
+  const { timers } = useTimerContext();
+  const activeTimersCount = timers.filter(t => !t.isPaused).length;
+
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: DashboardIcon },
-    { id: 'timer', label: 'Cronómetro', icon: TimerIcon },
+    { 
+      id: 'timer', 
+      label: 'Cronómetro', 
+      icon: TimerIcon,
+      badge: activeTimersCount > 0 ? activeTimersCount : undefined,
+    },
     { id: 'clients', label: 'Clientes', icon: ClientsIcon },
     { id: 'projects', label: 'Proyectos', icon: ProjectsIcon },
     { id: 'records', label: 'Registros', icon: RecordsIcon },
@@ -50,6 +72,9 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4 py-4">
           <div className="flex items-center gap-3">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center transition-transform duration-300 hover:scale-110">
+              <TimerProLogo className="w-full h-full" />
+            </div>
             <h2 className="text-xl sm:text-2xl font-display font-semibold tracking-tight text-gray-100">
               Timer Pro
             </h2>
@@ -60,19 +85,26 @@ export const Navigation: React.FC<NavigationProps> = ({ currentPage, onNavigate 
               const isActive = currentPage === item.id;
               return (
                 <li key={item.id}>
-                  <button
-                    className={`px-4 py-2 rounded-lg font-body font-medium text-sm transition-all duration-200 
-                      flex items-center gap-2
-                      ${
-                        isActive
-                          ? 'bg-gray-800 text-white'
-                          : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
-                      }`}
-                    onClick={() => onNavigate(item.id)}
-                  >
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
-                    <span className="hidden sm:inline">{item.label}</span>
-                  </button>
+                  <Tooltip content={item.label}>
+                    <button
+                      className={`px-4 py-2 rounded-lg font-body font-medium text-sm transition-all duration-200 
+                        flex items-center gap-2 relative
+                        ${
+                          isActive
+                            ? 'bg-gray-800 text-white border-b-2 border-cyan-400'
+                            : 'text-gray-400 hover:text-white hover:bg-gray-800/50'
+                        }`}
+                      onClick={() => onNavigate(item.id)}
+                    >
+                      <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
+                      <span className="hidden sm:inline">{item.label}</span>
+                      {item.badge && item.badge > 0 && (
+                        <Badge variant="info" size="sm" className="ml-1">
+                          {item.badge}
+                        </Badge>
+                      )}
+                    </button>
+                  </Tooltip>
                 </li>
               );
             })}

@@ -41,24 +41,30 @@ export const StatsCards: React.FC<StatsCardsProps> = ({ totalToday, totalWeek, t
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 lg:gap-8">
-      {stats.map((stat) => {
+      {stats.map((stat, index) => {
         const Icon = stat.icon;
         return (
-          <Card key={stat.label} className="overflow-hidden shadow-elegant-lg hover:shadow-elegant-lg transition-all duration-300">
+          <div
+            key={stat.label}
+            className="animate-slide-up"
+            style={{ animationDelay: `${index * 0.1}s` }}
+          >
+            <Card className="overflow-hidden shadow-elegant-lg hover:shadow-elegant-lg transition-all duration-300">
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-lg bg-gray-800 flex items-center justify-center">
-                  <Icon className="w-6 h-6 text-gray-300" />
+                <div className="w-12 h-12 rounded-lg bg-gray-800 flex items-center justify-center transition-transform duration-300 hover:scale-110 hover:rotate-3">
+                  <Icon className="w-6 h-6 text-gray-300 transition-colors duration-300" />
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-gray-400 font-body font-medium mb-1">{stat.label}</p>
-                  <p className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-1 font-mono tracking-tight bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-300 bg-clip-text text-transparent">
+                  <p className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold mt-1 font-mono tracking-tight bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-300 bg-clip-text text-transparent transition-all duration-300">
                     {timeCalculations.formatDuration(stat.value)}
                   </p>
                 </div>
               </div>
             </div>
-          </Card>
+            </Card>
+          </div>
         );
       })}
     </div>

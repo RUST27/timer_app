@@ -40,11 +40,11 @@ export const ProjectsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen p-6 sm:p-8 lg:p-10">
+    <div className="min-h-screen p-6 sm:p-8 lg:p-10 animate-fade-in">
       <div className="container mx-auto max-w-7xl">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-10 animate-slide-up">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center border border-gray-700">
+            <div className="w-12 h-12 rounded-xl bg-gray-800 flex items-center justify-center border border-gray-700 transition-transform duration-300 hover:scale-110">
               <svg className="w-6 h-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
               </svg>
